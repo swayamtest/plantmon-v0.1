@@ -18,7 +18,14 @@ import { AuthProvider } from "@/contexts/AuthContext";
 
 SplashScreen.preventAutoHideAsync();
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      staleTime: 30_000,
+    },
+  },
+});
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
@@ -49,7 +56,7 @@ export default function RootLayout() {
                   <Stack.Screen name="(tabs)" />
                   <Stack.Screen
                     name="plant/new"
-                    options={{ presentation: "modal", headerShown: false }}
+                    options={{ presentation: "modal" }}
                   />
                   <Stack.Screen name="plant/[id]" />
                 </Stack>

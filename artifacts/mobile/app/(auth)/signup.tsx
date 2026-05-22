@@ -26,7 +26,6 @@ export default function SignUpScreen() {
   const [confirm, setConfirm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [done, setDone] = useState(false);
 
   const handleSignUp = async () => {
     if (!email || !password || !confirm) {
@@ -48,7 +47,7 @@ export default function SignUpScreen() {
     if (err) {
       setError(err.message ?? "Sign up failed");
     } else {
-      setDone(true);
+      router.replace("/(tabs)");
     }
   };
 
@@ -140,53 +139,7 @@ export default function SignUpScreen() {
       fontSize: 14,
       fontFamily: "Inter_600SemiBold",
     },
-    doneBox: {
-      alignItems: "center",
-      gap: 16,
-      paddingVertical: 40,
-    },
-    doneIcon: {
-      width: 80,
-      height: 80,
-      borderRadius: 40,
-      backgroundColor: colors.accent + "22",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    doneTitle: {
-      fontSize: 22,
-      fontFamily: "Inter_700Bold",
-      color: colors.foreground,
-      textAlign: "center",
-    },
-    doneText: {
-      fontSize: 15,
-      fontFamily: "Inter_400Regular",
-      color: colors.mutedForeground,
-      textAlign: "center",
-      paddingHorizontal: 16,
-    },
   });
-
-  if (done) {
-    return (
-      <View style={[s.flex, { justifyContent: "center", alignItems: "center" }]}>
-        <View style={s.doneBox}>
-          <View style={s.doneIcon}>
-            <Feather name="check" size={36} color={colors.accent} />
-          </View>
-          <Text style={s.doneTitle}>Check your email</Text>
-          <Text style={s.doneText}>
-            We've sent a confirmation link to {email}. Confirm your account then
-            sign in.
-          </Text>
-          <TouchableOpacity onPress={() => router.replace("/(auth)/login")}>
-            <Text style={s.footerLink}>Go to Sign In</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  }
 
   return (
     <KeyboardAvoidingView

@@ -9,6 +9,25 @@ export type TaskType =
   | "pruning"
   | "repotting";
 
+export type LightRequirement = "low" | "medium" | "bright_indirect" | "full_sun";
+export type HumidityPreference = "low" | "medium" | "high";
+export type DifficultyLevel = "easy" | "medium" | "hard";
+
+// ── plant_care_profiles ──────────────────────────────────────
+// Shared species-level care defaults. Not user-specific.
+// Used to auto-generate default care_tasks on plant creation.
+export interface PlantCareProfile {
+  id: string;
+  species_name: string;
+  watering_frequency_days: number;
+  fertilizing_frequency_days: number | null;
+  light_requirement: LightRequirement | null;
+  humidity_preference: HumidityPreference | null;
+  difficulty_level: DifficultyLevel | null;
+  notes: string | null;
+  created_at: string;
+}
+
 // ── care_tasks ───────────────────────────────────────────────
 export interface CareTask {
   id: string;
@@ -112,8 +131,12 @@ export function getDaysUntilWatering(plant: Plant): number {
   const task = getWateringTask(plant);
   if (!task?.last_completed_at || !task?.frequency_days) return 0;
   const last = new Date(task.last_completed_at);
-  const next = new Date(last.getTime() + task.frequency_days * 24 * 60 * 60 * 1000);
-  const diff = Math.ceil((next.getTime() - Date.now()) / (24 * 60 * 60 * 1000));
+  const next = new Date(
+    last.getTime() + task.frequency_days * 24 * 60 * 60 * 1000,
+  );
+  const diff = Math.ceil(
+    (next.getTime() - Date.now()) / (24 * 60 * 60 * 1000),
+  );
   return Math.max(0, diff);
 }
 

@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { Plant, PlantInput, TaskType } from "@/types/plant";
 import { useAuth } from "@/contexts/AuthContext";
+import { generateDefaultCareTasks } from "@/lib/careProfiles";
 
 const PLANT_SELECT = "*, care_tasks(*)";
 
@@ -43,13 +44,25 @@ export function useCreatePlant() {
   const { user } = useAuth();
   return useMutation({
     mutationFn: async (input: PlantInput) => {
-      const { data, error } = await supabase
+      // 1. Insert the plant record
+      const { data: created, error: insertError } = await supabase
         .from("plants")
         .insert({ ...input, user_id: user!.id })
-        .select(PLANT_SELECT)
+        .select("id, species_name")
         .single();
-      if (error) throw error;
-      return data as Plant;
+      if (insertError) throw insertError;
+
+      // 2. Auto-generate default care tasks based on species (or fallback defaults)
+      await generateDefaultCareTasks(created.id, created.species_name);
+
+      // 3. Re-fetch the full plant record with care_tasks joined
+      const { data: plant, error: fetchError } = await supabase
+        .from("plants")
+        .select(PLANT_SELECT)
+        .eq("id", created.id)
+        .single();
+      if (fetchError) throw fetchError;
+      return plant as Plant;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["plants"] });
@@ -99,16 +112,14 @@ export function useWaterPlant() {
       const now = new Date().toISOString();
 
       // 1. Append to care_logs (immutable history)
-      const { error: logError } = await supabase
-        .from("care_logs")
-        .insert({
-          plant_id: plantId,
-          task_type: "watering" as TaskType,
-          completed_at: now,
-        });
+      const { error: logError } = await supabase.from("care_logs").insert({
+        plant_id: plantId,
+        task_type: "watering" as TaskType,
+        completed_at: now,
+      });
       if (logError) throw logError;
 
-      // 2. Update care_tasks (scheduling state)
+      // 2. Update care_tasks scheduling state
       const { data: existing } = await supabase
         .from("care_tasks")
         .select("id, frequency_days")

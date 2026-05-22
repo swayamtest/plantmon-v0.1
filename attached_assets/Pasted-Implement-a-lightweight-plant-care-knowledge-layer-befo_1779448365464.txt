@@ -1,0 +1,115 @@
+Implement a lightweight plant care knowledge layer before building advanced recurring scheduling workflows.
+
+The goal is to support intelligent default care schedule generation without introducing AI complexity.
+
+Do NOT implement:
+
+* generative AI
+* LLM integrations
+* advanced recommendation engines
+* notifications
+* analytics
+* dashboards
+
+---
+
+## GOAL
+
+The app should automatically generate sensible default care schedules based on plant species data.
+
+The architecture should remain:
+
+* deterministic
+* lightweight
+* maintainable
+* extensible
+
+---
+
+## IMPLEMENT THIS NEW ENTITY
+
+Create:
+plant_care_profiles
+
+Purpose:
+Store reusable species-level plant care defaults.
+
+Recommended fields:
+
+* id
+* species_name
+* watering_frequency_days
+* fertilizing_frequency_days
+* light_requirement
+* humidity_preference
+* difficulty_level
+* notes
+* created_at
+
+---
+
+## DEFAULT CARE WORKFLOW
+
+When a plant is created:
+
+1. If species_name exists:
+
+* lookup matching plant_care_profile
+* automatically create default care_tasks
+* generate next_due_at values
+
+2. If species_name does not exist:
+
+* fallback to a generic default watering schedule
+
+---
+
+## CARE TASK GENERATION
+
+Automatically generate:
+
+* watering schedule initially
+
+Architecture should support future extension for:
+
+* fertilizing
+* misting
+* pruning
+* repotting
+
+without redesigning the schema.
+
+---
+
+## IMPORTANT UX REQUIREMENTS
+
+Users should:
+
+* not be forced to manually configure schedules initially
+* be able to edit schedules later
+* experience lightweight onboarding
+
+Optimize for:
+
+* quick plant setup
+* progressive enrichment
+* low cognitive load
+* mobile-first usability
+
+---
+
+## IMPORTANT IMPLEMENTATION REQUIREMENTS
+
+1. Keep the system deterministic and rule-based
+
+2. Use plant_care_profiles as the intelligence layer
+
+3. Do not implement AI-generated scheduling yet
+
+4. Ensure no duplicate active watering schedules are created
+
+5. Ensure care_logs append correctly after task completion
+
+6. Ensure next_due_at calculations work correctly
+
+7. Ensure the architecture remains extensible for future automation

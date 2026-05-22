@@ -38,6 +38,7 @@ export default function PlantDetailScreen() {
   const waterPlant = useWaterPlant();
   const updatePlant = useUpdatePlant();
   const [editing, setEditing] = useState(false);
+  const [updateError, setUpdateError] = useState<string | null>(null);
 
   const topPad = Platform.OS === "web" ? 67 : insets.top;
 
@@ -224,6 +225,22 @@ export default function PlantDetailScreen() {
       fontFamily: "Inter_500Medium",
       fontSize: 15,
     },
+    errorBanner: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 8,
+      backgroundColor: colors.destructive + "18",
+      borderBottomWidth: 1,
+      borderBottomColor: colors.destructive + "44",
+      paddingHorizontal: 16,
+      paddingVertical: 10,
+    },
+    errorBannerText: {
+      flex: 1,
+      fontSize: 13,
+      fontFamily: "Inter_400Regular",
+      color: colors.destructive,
+    },
   });
 
   const handleDelete = () => {
@@ -253,8 +270,19 @@ export default function PlantDetailScreen() {
   };
 
   const handleUpdate = async (input: PlantInput) => {
-    await updatePlant.mutateAsync({ id: id!, ...input });
-    setEditing(false);
+    setUpdateError(null);
+    try {
+      await updatePlant.mutateAsync({ id: id!, ...input });
+      setEditing(false);
+    } catch (err: unknown) {
+      const msg =
+        err instanceof Error
+          ? err.message
+          : typeof err === "object" && err !== null && "message" in err
+            ? String((err as Record<string, unknown>).message)
+            : "Failed to save changes";
+      setUpdateError(msg);
+    }
   };
 
   if (isLoading || !plant) {
@@ -279,6 +307,12 @@ export default function PlantDetailScreen() {
             <Text style={s.headerTitle}>Edit Plant</Text>
           </View>
         </View>
+        {updateError ? (
+          <View style={s.errorBanner}>
+            <Feather name="alert-circle" size={15} color={colors.destructive} />
+            <Text style={s.errorBannerText}>{updateError}</Text>
+          </View>
+        ) : null}
         <PlantForm
           initialValues={plant}
           onSubmit={handleUpdate}

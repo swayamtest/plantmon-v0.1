@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Platform } from "react-native";
 import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
@@ -13,12 +13,24 @@ export default function NewPlantScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const createPlant = useCreatePlant();
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const topPad = Platform.OS === "web" ? 67 : insets.top;
 
   const handleSubmit = async (input: PlantInput) => {
-    await createPlant.mutateAsync(input);
-    router.back();
+    setSubmitError(null);
+    try {
+      await createPlant.mutateAsync(input);
+      router.back();
+    } catch (err: unknown) {
+      const msg =
+        err instanceof Error
+          ? err.message
+          : typeof err === "object" && err !== null && "message" in err
+            ? String((err as Record<string, unknown>).message)
+            : "Failed to save plant";
+      setSubmitError(msg);
+    }
   };
 
   const s = StyleSheet.create({
@@ -44,6 +56,22 @@ export default function NewPlantScreen() {
       fontFamily: "Inter_600SemiBold",
       color: colors.foreground,
     },
+    errorBanner: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 8,
+      backgroundColor: colors.destructive + "18",
+      borderBottomWidth: 1,
+      borderBottomColor: colors.destructive + "44",
+      paddingHorizontal: 16,
+      paddingVertical: 10,
+    },
+    errorText: {
+      flex: 1,
+      fontSize: 13,
+      fontFamily: "Inter_400Regular",
+      color: colors.destructive,
+    },
   });
 
   return (
@@ -54,6 +82,12 @@ export default function NewPlantScreen() {
         </TouchableOpacity>
         <Text style={s.title}>New Plant</Text>
       </View>
+      {submitError ? (
+        <View style={s.errorBanner}>
+          <Feather name="alert-circle" size={15} color={colors.destructive} />
+          <Text style={s.errorText}>{submitError}</Text>
+        </View>
+      ) : null}
       <PlantForm
         onSubmit={handleSubmit}
         onCancel={() => router.back()}

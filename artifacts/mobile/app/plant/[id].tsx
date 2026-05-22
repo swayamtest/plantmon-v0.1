@@ -14,10 +14,19 @@ import { Feather } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 import { useColors } from "@/hooks/useColors";
-import { usePlant, useDeletePlant, useWaterPlant } from "@/hooks/usePlants";
+import {
+  usePlant,
+  useDeletePlant,
+  useWaterPlant,
+  useUpdatePlant,
+} from "@/hooks/usePlants";
 import { PlantForm } from "@/components/PlantForm";
-import { getDaysUntilWatering, needsWatering, PlantInput } from "@/types/plant";
-import { useUpdatePlant } from "@/hooks/usePlants";
+import {
+  getWateringTask,
+  getDaysUntilWatering,
+  needsWatering,
+  PlantInput,
+} from "@/types/plant";
 
 export default function PlantDetailScreen() {
   const colors = useColors();
@@ -218,20 +227,24 @@ export default function PlantDetailScreen() {
   });
 
   const handleDelete = () => {
-    Alert.alert("Delete plant", `Remove "${plant?.name}" from your garden?`, [
-      { text: "Cancel", style: "cancel" },
-      {
-        text: "Delete",
-        style: "destructive",
-        onPress: async () => {
-          await Haptics.notificationAsync(
-            Haptics.NotificationFeedbackType.Warning,
-          );
-          await deletePlant.mutateAsync(id!);
-          router.back();
+    Alert.alert(
+      "Delete plant",
+      `Remove "${plant?.display_name}" from your garden?`,
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            await Haptics.notificationAsync(
+              Haptics.NotificationFeedbackType.Warning,
+            );
+            await deletePlant.mutateAsync(id!);
+            router.back();
+          },
         },
-      },
-    ]);
+      ],
+    );
   };
 
   const handleWater = async () => {
@@ -277,8 +290,19 @@ export default function PlantDetailScreen() {
     );
   }
 
+  const wateringTask = getWateringTask(plant);
   const daysLeft = getDaysUntilWatering(plant);
   const urgent = needsWatering(plant);
+
+  const wateringTitle = urgent
+    ? "Needs watering today"
+    : daysLeft > 0
+      ? `Water in ${daysLeft} day${daysLeft !== 1 ? "s" : ""}`
+      : "No watering schedule set";
+
+  const wateringSubtitle = wateringTask?.last_completed_at
+    ? `Last watered ${new Date(wateringTask.last_completed_at).toLocaleDateString()}`
+    : "Never watered";
 
   return (
     <View style={s.flex}>
@@ -288,14 +312,11 @@ export default function PlantDetailScreen() {
             <Feather name="arrow-left" size={22} color={colors.foreground} />
           </TouchableOpacity>
           <Text style={s.headerTitle} numberOfLines={1}>
-            {plant.name}
+            {plant.display_name}
           </Text>
         </View>
         <View style={s.headerActions}>
-          <TouchableOpacity
-            style={s.iconBtn}
-            onPress={() => setEditing(true)}
-          >
+          <TouchableOpacity style={s.iconBtn} onPress={() => setEditing(true)}>
             <Feather name="edit-2" size={19} color={colors.foreground} />
           </TouchableOpacity>
         </View>
@@ -307,39 +328,51 @@ export default function PlantDetailScreen() {
             <Feather name="sun" size={56} color={colors.primary} />
           </View>
           <View style={s.heroBody}>
-            <Text style={s.plantName}>{plant.name}</Text>
-            {plant.species ? (
-              <Text style={s.plantSpecies}>{plant.species}</Text>
+            <Text style={s.plantName}>{plant.display_name}</Text>
+            {plant.species_name ? (
+              <Text style={s.plantSpecies}>{plant.species_name}</Text>
             ) : null}
             <View style={s.chipRow}>
-              <View style={[s.chip, urgent ? s.urgentChip : null]}>
-                <Feather
-                  name="droplet"
-                  size={12}
-                  color={urgent ? colors.accent : colors.mutedForeground}
-                />
-                <Text
-                  style={[s.chipText, urgent ? s.urgentChipText : null]}
-                >
-                  {urgent
-                    ? "Water now"
-                    : daysLeft === 1
-                      ? "Tomorrow"
-                      : `${daysLeft}d left`}
-                </Text>
-              </View>
-              {plant.location ? (
+              {wateringTask && (
+                <View style={[s.chip, urgent ? s.urgentChip : null]}>
+                  <Feather
+                    name="droplet"
+                    size={12}
+                    color={urgent ? colors.accent : colors.mutedForeground}
+                  />
+                  <Text style={[s.chipText, urgent ? s.urgentChipText : null]}>
+                    {urgent
+                      ? "Water now"
+                      : daysLeft === 1
+                        ? "Tomorrow"
+                        : daysLeft > 1
+                          ? `${daysLeft}d left`
+                          : "Logged"}
+                  </Text>
+                </View>
+              )}
+              {plant.room_location ? (
                 <View style={s.chip}>
-                  <Feather name="map-pin" size={12} color={colors.mutedForeground} />
-                  <Text style={s.chipText}>{plant.location}</Text>
+                  <Feather
+                    name="map-pin"
+                    size={12}
+                    color={colors.mutedForeground}
+                  />
+                  <Text style={s.chipText}>{plant.room_location}</Text>
                 </View>
               ) : null}
-              <View style={s.chip}>
-                <Feather name="refresh-cw" size={12} color={colors.mutedForeground} />
-                <Text style={s.chipText}>
-                  Every {plant.watering_interval_days}d
-                </Text>
-              </View>
+              {wateringTask?.frequency_days ? (
+                <View style={s.chip}>
+                  <Feather
+                    name="refresh-cw"
+                    size={12}
+                    color={colors.mutedForeground}
+                  />
+                  <Text style={s.chipText}>
+                    Every {wateringTask.frequency_days}d
+                  </Text>
+                </View>
+              ) : null}
             </View>
           </View>
         </View>
@@ -348,14 +381,8 @@ export default function PlantDetailScreen() {
           <Text style={s.sectionLabel}>WATERING</Text>
           <View style={s.waterCard}>
             <View style={s.waterInfo}>
-              <Text style={s.waterTitle}>
-                {urgent ? "Needs watering today" : `Water in ${daysLeft} day${daysLeft !== 1 ? "s" : ""}`}
-              </Text>
-              <Text style={s.waterSub}>
-                {plant.last_watered_at
-                  ? `Last watered ${new Date(plant.last_watered_at).toLocaleDateString()}`
-                  : "Never watered"}
-              </Text>
+              <Text style={s.waterTitle}>{wateringTitle}</Text>
+              <Text style={s.waterSub}>{wateringSubtitle}</Text>
             </View>
             <TouchableOpacity
               style={s.waterButton}
@@ -364,10 +391,17 @@ export default function PlantDetailScreen() {
               activeOpacity={0.8}
             >
               {waterPlant.isPending ? (
-                <ActivityIndicator size="small" color={colors.primaryForeground} />
+                <ActivityIndicator
+                  size="small"
+                  color={colors.primaryForeground}
+                />
               ) : (
                 <>
-                  <Feather name="droplet" size={15} color={colors.primaryForeground} />
+                  <Feather
+                    name="droplet"
+                    size={15}
+                    color={colors.primaryForeground}
+                  />
                   <Text style={s.waterButtonText}>Water</Text>
                 </>
               )}
@@ -375,11 +409,11 @@ export default function PlantDetailScreen() {
           </View>
         </View>
 
-        {plant.description ? (
+        {plant.notes ? (
           <View style={s.notesSection}>
             <Text style={s.sectionLabel}>NOTES</Text>
             <View style={s.notesCard}>
-              <Text style={s.notesText}>{plant.description}</Text>
+              <Text style={s.notesText}>{plant.notes}</Text>
             </View>
           </View>
         ) : null}

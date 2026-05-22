@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   ScrollView,
-  Platform,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
@@ -31,23 +30,21 @@ export function PlantForm({
 }: PlantFormProps) {
   const colors = useColors();
 
-  const [name, setName] = useState(initialValues?.name ?? "");
-  const [species, setSpecies] = useState(initialValues?.species ?? "");
-  const [description, setDescription] = useState(
-    initialValues?.description ?? "",
+  const [displayName, setDisplayName] = useState(
+    initialValues?.display_name ?? "",
   );
-  const [location, setLocation] = useState(initialValues?.location ?? "");
-  const [wateringDays, setWateringDays] = useState(
-    String(initialValues?.watering_interval_days ?? 7),
+  const [speciesName, setSpeciesName] = useState(
+    initialValues?.species_name ?? "",
   );
+  const [roomLocation, setRoomLocation] = useState(
+    initialValues?.room_location ?? "",
+  );
+  const [notes, setNotes] = useState(initialValues?.notes ?? "");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validate = () => {
     const e: Record<string, string> = {};
-    if (!name.trim()) e.name = "Name is required";
-    const days = parseInt(wateringDays);
-    if (isNaN(days) || days < 1 || days > 365)
-      e.wateringDays = "Enter a number between 1 and 365";
+    if (!displayName.trim()) e.displayName = "Plant name is required";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -56,11 +53,10 @@ export function PlantForm({
     if (!validate()) return;
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     await onSubmit({
-      name: name.trim(),
-      species: species.trim() || undefined,
-      description: description.trim() || undefined,
-      location: location.trim() || undefined,
-      watering_interval_days: parseInt(wateringDays),
+      display_name: displayName.trim(),
+      species_name: speciesName.trim() || undefined,
+      room_location: roomLocation.trim() || undefined,
+      notes: notes.trim() || undefined,
     });
   };
 
@@ -73,6 +69,9 @@ export function PlantForm({
       color: colors.mutedForeground,
       marginBottom: 6,
       marginTop: 16,
+    },
+    required: {
+      color: colors.accent,
     },
     input: {
       backgroundColor: colors.card,
@@ -95,33 +94,21 @@ export function PlantForm({
       marginTop: 4,
     },
     textarea: {
-      height: 80,
+      height: 88,
       textAlignVertical: "top",
     },
-    rowLabel: {
-      flexDirection: "row",
-      alignItems: "center",
-      gap: 6,
-      marginTop: 16,
-      marginBottom: 6,
-    },
-    wateringRow: {
-      flexDirection: "row",
-      alignItems: "center",
-      gap: 10,
-    },
-    wateringInput: {
-      width: 80,
-    },
-    wateringUnit: {
-      fontSize: 15,
-      color: colors.mutedForeground,
+    hint: {
+      fontSize: 12,
       fontFamily: "Inter_400Regular",
+      color: colors.mutedForeground,
+      marginTop: 20,
+      textAlign: "center",
+      opacity: 0.7,
     },
     buttonRow: {
       flexDirection: "row",
       gap: 12,
-      marginTop: 32,
+      marginTop: 28,
     },
     cancelButton: {
       flex: 1,
@@ -161,23 +148,27 @@ export function PlantForm({
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <Text style={s.label}>PLANT NAME *</Text>
+        <Text style={s.label}>
+          PLANT NAME <Text style={s.required}>*</Text>
+        </Text>
         <TextInput
-          style={[s.input, errors.name ? s.inputError : null]}
-          value={name}
-          onChangeText={setName}
-          placeholder="e.g. Monstera"
+          style={[s.input, errors.displayName ? s.inputError : null]}
+          value={displayName}
+          onChangeText={setDisplayName}
+          placeholder="e.g. Monstera, My favourite cactus…"
           placeholderTextColor={colors.mutedForeground}
           autoFocus
           returnKeyType="next"
         />
-        {errors.name ? <Text style={s.errorText}>{errors.name}</Text> : null}
+        {errors.displayName ? (
+          <Text style={s.errorText}>{errors.displayName}</Text>
+        ) : null}
 
         <Text style={s.label}>SPECIES</Text>
         <TextInput
           style={s.input}
-          value={species}
-          onChangeText={setSpecies}
+          value={speciesName}
+          onChangeText={setSpeciesName}
           placeholder="e.g. Monstera deliciosa"
           placeholderTextColor={colors.mutedForeground}
           returnKeyType="next"
@@ -186,45 +177,28 @@ export function PlantForm({
         <Text style={s.label}>LOCATION</Text>
         <TextInput
           style={s.input}
-          value={location}
-          onChangeText={setLocation}
+          value={roomLocation}
+          onChangeText={setRoomLocation}
           placeholder="e.g. Living room, balcony"
           placeholderTextColor={colors.mutedForeground}
           returnKeyType="next"
         />
 
-        <View style={s.rowLabel}>
-          <Feather name="droplet" size={13} color={colors.mutedForeground} />
-          <Text style={s.label}>WATERING EVERY *</Text>
-        </View>
-        <View style={s.wateringRow}>
-          <TextInput
-            style={[
-              s.input,
-              s.wateringInput,
-              errors.wateringDays ? s.inputError : null,
-            ]}
-            value={wateringDays}
-            onChangeText={setWateringDays}
-            keyboardType="number-pad"
-            returnKeyType="done"
-          />
-          <Text style={s.wateringUnit}>days</Text>
-        </View>
-        {errors.wateringDays ? (
-          <Text style={s.errorText}>{errors.wateringDays}</Text>
-        ) : null}
-
         <Text style={s.label}>NOTES</Text>
         <TextInput
           style={[s.input, s.textarea]}
-          value={description}
-          onChangeText={setDescription}
-          placeholder="Care notes, sunlight, soil type…"
+          value={notes}
+          onChangeText={setNotes}
+          placeholder="Care notes, sunlight, soil…"
           placeholderTextColor={colors.mutedForeground}
           multiline
           numberOfLines={3}
         />
+
+        <Text style={s.hint}>
+          <Feather name="info" size={11} /> Only a name is required — add more
+          detail any time.
+        </Text>
 
         <View style={s.buttonRow}>
           <TouchableOpacity style={s.cancelButton} onPress={onCancel}>
@@ -239,11 +213,7 @@ export function PlantForm({
               <ActivityIndicator size="small" color={colors.primaryForeground} />
             ) : (
               <>
-                <Feather
-                  name="check"
-                  size={16}
-                  color={colors.primaryForeground}
-                />
+                <Feather name="check" size={16} color={colors.primaryForeground} />
                 <Text style={s.submitText}>{submitLabel}</Text>
               </>
             )}

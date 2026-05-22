@@ -15,7 +15,7 @@ import { useColors } from "@/hooks/useColors";
 import { usePlants } from "@/hooks/usePlants";
 import { PlantCard } from "@/components/PlantCard";
 import { WateringStatus } from "@/components/WateringStatus";
-import { Plant } from "@/types/plant";
+import { Plant, needsWatering, getDaysUntilWatering } from "@/types/plant";
 
 type FilterType = "all" | "today" | "soon";
 
@@ -27,24 +27,10 @@ export default function HomeScreen() {
   const [filter, setFilter] = useState<FilterType>("all");
 
   const filtered: Plant[] = plants.filter((p) => {
-    if (filter === "today") {
-      if (!p.last_watered_at) return true;
-      const last = new Date(p.last_watered_at);
-      const next = new Date(
-        last.getTime() + p.watering_interval_days * 86400000,
-      );
-      return next <= new Date();
-    }
+    if (filter === "today") return needsWatering(p);
     if (filter === "soon") {
-      if (!p.last_watered_at) return true;
-      const last = new Date(p.last_watered_at);
-      const next = new Date(
-        last.getTime() + p.watering_interval_days * 86400000,
-      );
-      const diff = Math.ceil(
-        (next.getTime() - Date.now()) / 86400000,
-      );
-      return diff <= 2 && diff > 0;
+      const d = getDaysUntilWatering(p);
+      return d > 0 && d <= 2;
     }
     return true;
   });
@@ -189,7 +175,11 @@ export default function HomeScreen() {
                 onPress={() => router.push("/plant/new")}
                 activeOpacity={0.8}
               >
-                <Feather name="plus" size={22} color={colors.primaryForeground} />
+                <Feather
+                  name="plus"
+                  size={22}
+                  color={colors.primaryForeground}
+                />
               </TouchableOpacity>
             </View>
 

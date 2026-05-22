@@ -1,0 +1,222 @@
+Implement and apply the Supabase database schema for the plant management system based on the following requirements.
+
+Do NOT generate unrelated frontend features yet.
+
+The app is a lightweight personal plant care and tracking system optimized for:
+
+* personal use
+* low-friction UX
+* progressive enrichment
+* maintainability
+* future extensibility without overengineering
+
+---
+
+## CORE ARCHITECTURE RULES
+
+* Keep the schema lightweight and scalable
+* Use proper foreign keys
+* Use row-level security
+* Add timestamps to all tables
+* Add indexed user ownership where appropriate
+* Use cascade delete behavior where appropriate
+* Use modern Supabase/Postgres best practices
+* Avoid overengineering
+* Avoid unnecessary abstractions
+
+The system should follow:
+"Capture quickly, enrich progressively."
+
+Users should be able to:
+
+* create plants rapidly
+* enrich plant information later
+* log care history over time
+* track health over time
+
+---
+
+## CREATE THESE TABLES
+
+* plants
+* care_tasks
+* care_logs
+* journal_entries
+* health_logs
+
+---
+
+## TABLE REQUIREMENTS
+
+plants
+
+Purpose:
+Store stable plant identity information.
+
+Mandatory fields:
+
+* id
+* user_id
+* display_name
+* created_at
+
+Optional fields:
+
+* species_name
+* botanical_name
+* room_location
+* notes
+* image_url
+* light_conditions
+* humidity_preferences
+* watering_preferences
+* purchase_date
+* acquired_from
+* updated_at
+
+Important:
+
+* display_name is the user-facing plant name
+* species_name should remain optional
+* room_location should remain optional
+
+---
+
+care_tasks
+
+Purpose:
+Store recurring care schedules.
+
+Mandatory fields:
+
+* id
+* plant_id
+* task_type
+* created_at
+
+Optional fields:
+
+* frequency_days
+* last_completed_at
+* next_due_at
+* notes
+* active_status
+
+The recurring task system should support:
+
+* watering
+* fertilizing
+* misting
+* pruning
+* repotting
+
+---
+
+care_logs
+
+Purpose:
+Store completed care action history.
+
+Mandatory fields:
+
+* id
+* plant_id
+* task_type
+* completed_at
+
+Optional fields:
+
+* notes
+* image_url
+
+---
+
+journal_entries
+
+Purpose:
+Store personal notes and observations.
+
+Mandatory fields:
+
+* id
+* plant_id
+* created_at
+
+Optional fields:
+
+* title
+* notes
+* image_url
+
+---
+
+health_logs
+
+Purpose:
+Track plant health observations over time.
+
+Mandatory fields:
+
+* id
+* plant_id
+* health_score
+* created_at
+
+health_score requirements:
+
+* support 1–5 scalar range
+* optimized for quick mobile logging
+* supports historical trend tracking
+
+Recommended interpretation:
+
+* 1 = Critical
+* 2 = Poor
+* 3 = Stable
+* 4 = Healthy
+* 5 = Thriving
+
+Optional fields:
+
+* issue_type
+* severity
+* notes
+* image_url
+
+---
+
+## ENVIRONMENTAL DATA RULE
+
+Do NOT store:
+
+* humidity
+* pressure
+* temperature
+* environmental snapshots
+
+directly on the plants table.
+
+Environmental tracking should remain extensible for future optional implementation.
+
+---
+
+## IMPLEMENTATION REQUIREMENTS
+
+1. Generate and apply Supabase migrations
+
+2. Configure relationships correctly
+
+3. Configure row-level security policies
+
+4. Ensure authenticated users only access their own data
+
+5. Ensure schema is stable before frontend integrations
+
+6. Do NOT generate additional frontend features yet
+
+7. After schema setup:
+
+* verify tables exist correctly
+* verify relationships work
+* verify RLS policies work
+* verify authenticated CRUD access works

@@ -109,9 +109,9 @@ export function PlantCard({ plant }: PlantCardProps) {
         />
       </View>
       <View style={styles.content}>
-        <Text style={styles.name}>{plant.name}</Text>
-        {plant.species ? (
-          <Text style={styles.species}>{plant.species}</Text>
+        <Text style={styles.name}>{plant.display_name}</Text>
+        {plant.species_name ? (
+          <Text style={styles.species}>{plant.species_name}</Text>
         ) : null}
         <View style={styles.waterBadge}>
           <Feather
@@ -124,12 +124,14 @@ export function PlantCard({ plant }: PlantCardProps) {
               ? "Water today"
               : daysLeft === 1
                 ? "Water tomorrow"
-                : `Water in ${daysLeft}d`}
+                : daysLeft > 1
+                  ? `Water in ${daysLeft}d`
+                  : "Log watering"}
           </Text>
         </View>
-        {plant.location ? (
+        {plant.room_location ? (
           <Text style={[styles.location, { marginTop: 4 }]}>
-            {plant.location}
+            {plant.room_location}
           </Text>
         ) : null}
       </View>

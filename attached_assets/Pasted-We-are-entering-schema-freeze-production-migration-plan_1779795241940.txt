@@ -1,0 +1,151 @@
+We are entering schema freeze + production migration planning.
+
+I need a COMPLETE runtime schema inventory export for the current app architecture.
+
+Please generate a structured engineering report containing:
+
+---
+
+1. DATABASE SCHEMA INVENTORY
+
+---
+
+For EVERY current table:
+
+* table name
+* column names
+* data types
+* nullable/non-nullable
+* default values
+* primary keys
+* foreign keys
+* indexes
+* enum constraints
+
+---
+
+2. ORM / MODEL DEFINITIONS
+
+---
+
+Export:
+
+* Prisma schema
+  OR
+* Drizzle schema
+  OR
+* Sequelize models
+  OR
+* any current ORM definitions
+
+Include:
+
+* relationships
+* inferred relationships
+* cascade behavior
+* runtime assumptions
+
+---
+
+3. CURRENT SUPABASE STRUCTURE
+
+---
+
+Document:
+
+* currently synced Supabase tables
+* current migrations
+* auth assumptions
+* RLS policies (if any)
+* storage buckets (if any)
+
+---
+
+4. RUNTIME DATA FLOW MAPPING
+
+---
+
+Explain:
+
+* which frontend flows depend on which tables
+* onboarding dependencies
+* search dependencies
+* care scheduling dependencies
+* notification dependencies
+* plant creation flow dependencies
+
+---
+
+5. CURRENT ENUM SYSTEMS
+
+---
+
+List all:
+
+* enums
+* hardcoded status values
+* care logic enums
+* frontend display enums
+* scheduling enums
+
+---
+
+6. LEGACY / DEPRECATED FIELDS
+
+---
+
+Identify:
+
+* unused columns
+* temporary prototype fields
+* redundant structures
+* obsolete onboarding assumptions
+* outdated care logic
+
+---
+
+7. FRONTEND DATA CONTRACTS
+
+---
+
+Document:
+
+* what frontend components expect
+* what fields are currently required
+* what components will break if schema changes
+
+---
+
+8. CURRENT SEARCH / IDENTITY FLOW
+
+---
+
+Explain:
+
+* how plant search currently works
+* how species are resolved
+* whether aliases exist
+* whether canonical IDs exist
+* whether normalization exists
+
+---
+
+9. EXPORT FORMAT
+
+---
+
+Generate:
+
+* markdown engineering report
+  AND
+* raw schema definitions where possible
+
+IMPORTANT:
+Do NOT refactor anything yet.
+
+The goal is:
+full architecture visibility
+before:
+schema freeze,
+migration planning,
+and Supabase normalization.

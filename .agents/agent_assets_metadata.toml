@@ -1,8 +1,13 @@
 uploads = []
-outputs = []
 
 [[generated]]
 id = "jlnZ_tg6nnzoe0JgOnGgP"
 uri = "file://artifacts/mobile/assets/images/icon.png"
 type = "image"
 title = "generated_image"
+
+[[outputs]]
+id = "xE4KWyQ_O9mDORUNvEiwb"
+uri = "file://artifacts/mobile/SCHEMA_INVENTORY_v0.1.md"
+type = "text"
+title = "Schema Inventory Report — v0.1"

@@ -1,0 +1,101 @@
+We need to create a clean architectural checkpoint in GitHub representing the CURRENT IMPLEMENTED RUNTIME STATE of the app before upcoming schema normalization and identity migration work.
+
+IMPORTANT:
+This checkpoint should ONLY reflect systems that are ACTUALLY implemented inside the Replit + Supabase runtime architecture right now.
+
+Do NOT include:
+
+* future architecture
+* PRD concepts
+* local CSV datasets
+* canonical inventory plans
+* alias systems not yet implemented
+* semantic intelligence systems not yet implemented
+
+---
+
+## TASK
+
+1. Commit and push the CURRENT implementation state to GitHub.
+
+Repository:
+(use existing connected GitHub repo)
+
+2. Create a clean commit representing:
+   PRE-MIGRATION RUNTIME SNAPSHOT.
+
+3. Do NOT refactor or modify runtime behavior.
+
+4. Ensure:
+
+* all working runtime code
+* schema files
+* Supabase integration
+* frontend flows
+* scheduling logic
+* auth logic
+* routing
+* care task generation
+
+are included in the commit.
+
+---
+
+## COMMIT TITLE
+
+v0.1.5 — Pre-Migration Runtime Snapshot
+
+---
+
+## COMMIT DESCRIPTION
+
+Current implemented runtime architecture snapshot before:
+canonical identity migration and schema normalization.
+
+Implemented runtime systems include:
+
+* Supabase-authenticated mobile app architecture
+* 6-table Supabase schema with RLS
+* Free-text species lookup workflow
+* Partial ilike-based care profile matching
+* Static watering/fertilizing scheduling
+* Deterministic watering task generation
+* Watering sync between care_logs and care_tasks
+* Progressive plant creation flow
+* TanStack Query data synchronization
+* Route-guarded auth flow
+* User-scoped plant inventory system
+* Immutable care log architecture
+* Local runtime scheduling logic
+* Manual care profile seeding (46 species)
+* Home dashboard watering status logic
+* Basic plant CRUD operations
+
+Known architectural limitations before migration:
+
+* No canonical species identity system
+* No alias/common-name resolution
+* No collapse mappings
+* No normalized onboarding pipeline
+* No seasonal care scheduling
+* No semantic behavioral intelligence layer
+* No migration tooling
+* No runtime search system
+* No canonical FK relationships
+* Free-text species persistence
+* Static frequency-based scheduling only
+
+Checkpoint created before:
+Phase 2 schema integration and runtime normalization.
+
+---
+
+## AFTER COMPLETION
+
+Return:
+
+* GitHub commit hash
+* branch name
+* pushed repo URL
+* confirmation of successful push
+* any files ignored/skipped

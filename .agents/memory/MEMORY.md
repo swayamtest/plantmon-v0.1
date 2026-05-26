@@ -1,0 +1,2 @@
+- [Phase 2.1 Schema Architecture](phase2-schema.md) — canonical_species_id is the runtime backbone; display_name≠plant_name (legacy column name mismatch)
+- [Supabase Credential Swap](supabase-creds.md) — EXPO_PUBLIC_SUPABASE_URL holds the anon key; EXPO_PUBLIC_SUPABASE_ANON_KEY holds the URL; lib/supabase.ts detects by https:// prefix

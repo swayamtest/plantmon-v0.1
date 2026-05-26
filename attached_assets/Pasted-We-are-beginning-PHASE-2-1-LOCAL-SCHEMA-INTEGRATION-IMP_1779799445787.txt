@@ -1,0 +1,219 @@
+We are beginning:
+
+PHASE 2.1 — LOCAL SCHEMA INTEGRATION
+
+IMPORTANT:
+You MUST implement ONLY according to the attached:
+PLANTMON — MVP SCHEMA FREEZE DOCUMENT
+
+This document is now:
+the authoritative implementation contract.
+
+DO NOT:
+invent architecture,
+infer relationships,
+or redesign runtime behavior.
+
+---
+
+## CRITICAL IMPLEMENTATION RULES
+
+1. LOCAL REPLIT INTEGRATION ONLY
+
+* DO NOT migrate Supabase yet
+* DO NOT push production migrations yet
+
+2. PRESERVE BACKWARD COMPATIBILITY
+
+* legacy structures may temporarily coexist
+* existing app flows should not break
+
+3. DO NOT REDESIGN FRONTEND YET
+
+* no onboarding redesign
+* no UI refactor
+* no UX restructuring
+
+4. IMPLEMENT FOUNDATIONAL RUNTIME ARCHITECTURE ONLY
+
+---
+
+## PHASE 2.1 GOALS
+
+Implement the new foundational local runtime schema architecture required by the schema freeze document.
+
+---
+
+## TASK 1 — CREATE NEW CORE TABLES / MODELS
+
+Create local schema/models for:
+
+1. canonical_species
+2. plant_aliases
+3. collapse_mappings
+
+Follow:
+
+* exact columns
+* exact relationships
+* exact enums
+* exact constraints
+
+from the schema freeze document.
+
+---
+
+## TASK 2 — UPDATE plants TABLE
+
+Update local plants schema/model.
+
+ADD:
+
+* canonical_species_id
+* user_entered_name
+* canonical_species_name
+* species_resolution_method
+
+PRESERVE:
+
+* plant_name
+* existing compatibility fields
+
+IMPORTANT:
+Maintain temporary backward compatibility with:
+legacy species_name workflows.
+
+---
+
+## TASK 3 — UPDATE plant_care_profiles SCHEMA
+
+Expand local plant_care_profiles schema to support:
+
+SEASONAL FREQUENCIES:
+
+* watering_frequency_spring
+
+* watering_frequency_summer
+
+* watering_frequency_autumn
+
+* watering_frequency_winter
+
+* fertilizing_frequency_spring
+
+* fertilizing_frequency_summer
+
+* fertilizing_frequency_autumn
+
+* fertilizing_frequency_winter
+
+METHOD SYSTEMS:
+
+* watering_method
+* watering_method_description
+* fertilizing_method
+* fertilizing_method_description
+* repotting_method
+* repotting_signs
+* repotting_method_description
+
+SEMANTIC INTELLIGENCE:
+
+* plant_profile
+* seasonal_adjustments
+* care_alerts
+
+ADDITIONAL RUNTIME FIELDS:
+
+* canonical_species_id
+* placement_guidance
+* suggested_location
+* repotting_frequency_months
+
+IMPORTANT:
+Preserve temporary compatibility with:
+legacy fields:
+
+* notes
+* seasonal_care_notes
+* care_tips
+* watering_frequency_days
+* fertilizing_frequency_days
+
+---
+
+## TASK 4 — IMPLEMENT ENUM GOVERNANCE
+
+Implement centralized enum governance exactly as defined in the schema freeze document.
+
+DO NOT allow:
+free-text enum drift.
+
+---
+
+## TASK 5 — IMPLEMENT RELATIONSHIPS
+
+Implement:
+canonical_species_id
+relationships across runtime models.
+
+DO NOT yet remove:
+legacy free-text compatibility flows.
+
+---
+
+## TASK 6 — IMPLEMENT MIGRATION SAFETY
+
+Ensure:
+
+* rollback safety
+* temporary compatibility layers
+* staged migration capability
+
+DO NOT:
+perform destructive removals.
+
+---
+
+## TASK 7 — IMPLEMENT LOCAL TYPE SAFETY
+
+Update:
+
+* ORM types
+* TypeScript interfaces
+* runtime model definitions
+* query contracts
+
+to reflect the new schema architecture.
+
+---
+
+## IMPORTANT NON-GOALS
+
+DO NOT YET IMPLEMENT:
+
+* alias resolution logic
+* fuzzy search
+* scheduler migration
+* onboarding redesign
+* semantic rendering UI
+* Supabase migration
+* production data imports
+* frontend UX redesign
+
+Those belong to later Phase 2 passes.
+
+---
+
+## AFTER COMPLETION
+
+Return:
+
+1. Updated schema summary
+2. New local tables created
+3. New relationships created
+4. Enum implementations
+5. Backward compatibility layers added
+6. Migration risks discovered
+7. Temporary compatibility assumptions
+8. Any frontend/runtime breakage risks

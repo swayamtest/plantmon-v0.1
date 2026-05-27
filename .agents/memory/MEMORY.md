@@ -1,3 +1,4 @@
 - [Phase 2.1 Schema Architecture](phase2-schema.md) — canonical_species_id is the runtime backbone; display_name≠plant_name (legacy column name mismatch)
 - [Supabase Credential Swap](supabase-creds.md) — EXPO_PUBLIC_SUPABASE_URL holds the anon key; EXPO_PUBLIC_SUPABASE_ANON_KEY holds the URL; lib/supabase.ts detects by https:// prefix
 - [Phase B1.5A Runtime Compatibility](phase-b15a-compat.md) — compatibility shim pattern, post-migration activation checklist, and what is currently blocked
+- [Runtime Topology Audit Key Findings](topology-findings.md) — 3 high-risk couplings found in B1.75 audit; pre-dataset migration recommendations

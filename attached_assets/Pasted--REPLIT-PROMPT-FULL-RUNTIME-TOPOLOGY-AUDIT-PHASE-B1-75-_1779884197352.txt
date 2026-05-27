@@ -1,0 +1,412 @@
+# REPLIT PROMPT — FULL RUNTIME TOPOLOGY AUDIT
+
+# PHASE B1.75 — IMPLEMENTATION TOPOLOGY + ARCHITECTURE SCRUB
+
+You are performing:
+a complete runtime topology audit
+of the entire PLANTMON Replit codebase.
+
+This is NOT:
+a generic code review.
+
+This is:
+a governance-grade runtime architecture audit
+intended to prepare the system for:
+
+* Dataset Synchronization
+* Phase 2.2 Runtime Identity Activation
+* Dynamic Scheduler Evolution
+* Future automation/orchestration systems
+* Production runtime hardening
+
+The architecture is already considered:
+STRUCTURALLY FROZEN.
+
+DO NOT:
+propose architecture reinvention.
+
+The purpose of this audit is:
+
+* implementation topology visibility
+* runtime drift detection
+* technical debt mapping
+* migration safety validation
+* hidden coupling discovery
+* future activation readiness
+
+---
+
+# REQUIRED OUTPUT
+
+Generate:
+
+# RUNTIME_TOPOLOGY_AUDIT_v1.md
+
+This should become:
+the authoritative implementation topology map
+for the entire project.
+
+The report MUST be:
+comprehensive,
+systematic,
+and exhaustive.
+
+---
+
+# AUDIT REQUIREMENTS
+
+You MUST recursively inspect:
+ALL files in the repository.
+
+This includes:
+
+* frontend
+* hooks
+* utilities
+* components
+* providers
+* schemas
+* migrations
+* scripts
+* configs
+* automation files
+* Supabase integrations
+* runtime utilities
+* hidden helper files
+* temporary files
+* generated files
+* experiments
+* stale code
+* legacy compatibility code
+
+DO NOT skip:
+small files,
+unused files,
+or utility files.
+
+---
+
+# REQUIRED DELIVERABLES
+
+## 1. COMPLETE FILE INVENTORY
+
+Output:
+ALL repository files.
+
+For EACH file include:
+
+| Field              | Description                     |
+| ------------------ | ------------------------------- |
+| filepath           | exact path                      |
+| runtime_role       | purpose in system               |
+| category           | classification                  |
+| criticality        | runtime importance              |
+| active_status      | active / dormant / stale / dead |
+| migration_coupled  | yes/no                          |
+| schema_coupled     | yes/no                          |
+| identity_coupled   | yes/no                          |
+| scheduler_coupled  | yes/no                          |
+| onboarding_coupled | yes/no                          |
+| future_activation  | yes/no                          |
+| deletion_safe      | yes/no                          |
+| notes              | architecture observations       |
+
+---
+
+# 2. FILE CATEGORY CLASSIFICATION
+
+You MUST classify files into categories including:
+
+* runtime-critical
+* onboarding-critical
+* scheduler-critical
+* identity-critical
+* Supabase-critical
+* migration-critical
+* automation-critical
+* UI-only
+* utility-only
+* infra-only
+* compatibility-layer
+* future-activation
+* experimental
+* technical-debt
+* stale/dead
+
+You may introduce additional categories if necessary.
+
+---
+
+# 3. DEAD / STALE FILE DETECTION
+
+Identify:
+
+* orphan files
+* unused utilities
+* abandoned experiments
+* duplicate logic
+* dead compatibility layers
+* unreachable code
+* stale migrations
+* stale configs
+* stale hooks
+* stale scheduler logic
+
+For EACH:
+explain:
+
+* why it appears stale
+* risk level
+* deletion safety
+* migration implications
+
+DO NOT delete anything.
+ONLY audit.
+
+---
+
+# 4. RUNTIME COUPLING AUDIT
+
+Identify hidden runtime coupling between:
+
+* schema assumptions
+* Supabase queries
+* onboarding flows
+* scheduler logic
+* identity routing
+* runtime validation
+* task generation
+* care profile assumptions
+
+Especially identify:
+hardcoded assumptions.
+
+Examples:
+
+* direct species_name assumptions
+* fixed watering_frequency_days assumptions
+* static task generation assumptions
+* direct table shape assumptions
+* hidden enum dependencies
+
+This section is EXTREMELY important.
+
+---
+
+# 5. SUPABASE DEPENDENCY AUDIT
+
+Identify ALL files that:
+
+* directly query Supabase
+* assume schema structure
+* assume enum values
+* assume existing tables
+* assume column existence
+* depend on migration timing
+
+For EACH:
+document:
+
+* dependency risk
+* migration risk
+* compatibility risk
+* future Phase 2.2 implications
+
+---
+
+# 6. IDENTITY ACTIVATION TOUCHPOINT AUDIT
+
+Identify ALL files involved in:
+
+* onboarding recognition
+* species handling
+* care profile lookup
+* alias routing
+* collapse routing
+* canonical identity propagation
+* scheduler identity logic
+
+For EACH:
+classify:
+
+* current runtime behavior
+* future Phase 2.2 role
+* migration readiness
+* coupling risk
+
+This section is CRITICAL.
+
+---
+
+# 7. SCHEDULER EVOLUTION AUDIT
+
+Identify ALL files related to:
+
+* watering schedules
+* fertilizing schedules
+* next_due_at generation
+* recurring task generation
+* scheduler assumptions
+* seasonal logic
+* task lifecycle handling
+
+Document:
+
+* static assumptions
+* seasonal readiness
+* recalculation limitations
+* future migration implications
+
+This section is EXTREMELY important.
+
+---
+
+# 8. COMPATIBILITY LAYER AUDIT
+
+Identify:
+ALL compatibility shims,
+temporary bridges,
+and deferred activation logic.
+
+Especially:
+
+* stripped runtime fields
+* inactive canonical routing
+* future scheduler slots
+* legacy fallback logic
+* migration-safe guards
+
+Classify:
+
+* why they exist
+* what phase activates them
+* when they can eventually be removed
+
+---
+
+# 9. TECHNICAL DEBT MAP
+
+Generate:
+a categorized technical debt map.
+
+Categories:
+
+* low-risk debt
+* migration debt
+* scheduler debt
+* onboarding debt
+* identity debt
+* Supabase debt
+* UI debt
+* automation debt
+
+For EACH:
+include:
+
+* severity
+* architectural risk
+* runtime risk
+* recommended sequencing priority
+
+DO NOT recommend massive rewrites.
+
+---
+
+# 10. MIGRATION READINESS ASSESSMENT
+
+Assess whether:
+another additive migration
+should occur BEFORE:
+Dataset Synchronization.
+
+Identify possible needs for:
+
+* indexes
+* constraints
+* FK adjustments
+* enum hardening
+* audit fields
+* propagation gaps
+* scheduler fields
+* canonical enforcement
+
+DO NOT generate migration SQL yet.
+ONLY assess.
+
+This is one of the MOST important sections.
+
+---
+
+# 11. RUNTIME TOPOLOGY GRAPH
+
+Generate:
+a high-level runtime topology graph.
+
+Map:
+
+* onboarding flow
+* scheduler flow
+* Supabase flow
+* identity flow
+* task generation flow
+* care profile lookup flow
+* runtime validation flow
+
+You may use:
+ASCII diagrams,
+tables,
+or Mermaid diagrams.
+
+---
+
+# 12. FINAL EXECUTIVE ASSESSMENT
+
+Provide:
+
+* architecture health assessment
+* migration maturity assessment
+* runtime coupling assessment
+* Phase 2.2 readiness assessment
+* scheduler evolution readiness assessment
+* production hardening assessment
+
+Conclude with:
+the safest recommended next execution sequence.
+
+---
+
+# IMPORTANT EXECUTION RULES
+
+DO NOT:
+
+* modify files
+* refactor code
+* delete files
+* generate migrations
+* activate runtime systems
+* simplify architecture
+* propose large rewrites
+
+ONLY:
+audit,
+map,
+classify,
+and assess.
+
+---
+
+# MOST IMPORTANT PRINCIPLE
+
+This audit exists to:
+reduce future runtime risk.
+
+Prioritize:
+
+* implementation visibility
+* runtime safety
+* migration discipline
+* deterministic behavior
+* governance integrity
+* operational continuity
+
+at all times.

@@ -1,0 +1,333 @@
+# REPLIT PROMPT — GENERATE PRE_DATASET_HARDENING_MIGRATION_v1.sql
+
+# PHASE B2.0 — PRE-DATASET RUNTIME HARDENING MIGRATION
+
+You are generating:
+a STRICTLY ADDITIVE
+runtime hardening migration
+for PLANTMON.
+
+This migration occurs:
+AFTER:
+
+* Phase 2.1 additive migration
+* live Supabase infrastructure activation
+* runtime compatibility synchronization
+* topology audit completion
+
+AND BEFORE:
+
+* canonical_species synchronization
+* aliases synchronization
+* collapse mappings synchronization
+* runtime identity activation
+
+This migration is:
+NOT
+a schema redesign.
+
+This migration is:
+NOT
+a destructive migration.
+
+This migration is:
+NOT
+a runtime activation migration.
+
+This migration exists ONLY to:
+harden the runtime
+before dataset synchronization begins.
+
+---
+
+# REQUIRED OUTPUT
+
+Generate:
+
+# PRE_DATASET_HARDENING_MIGRATION_v1.sql
+
+AND ALSO:
+
+# PRE_DATASET_HARDENING_MIGRATION_REPORT_v1.md
+
+The report must explain:
+
+* every migration operation
+* why it exists
+* runtime impact
+* rollback implications
+* Phase 2.2 implications
+
+---
+
+# ABSOLUTE RULES
+
+## DO NOT:
+
+* drop tables
+* drop columns
+* rename columns
+* rewrite architecture
+* change runtime behavior
+* alter operational governance
+* redesign enums
+* rewrite RLS architecture
+* add triggers
+* add cron jobs
+* add background workers
+* modify care profile data
+* seed datasets
+* activate canonical routing
+* activate alias routing
+* activate seasonal scheduler
+
+This migration must remain:
+STRICTLY HARDENING-ONLY.
+
+---
+
+# AUTHORITATIVE CONTEXT
+
+Use the following files as authoritative references:
+
+* RUNTIME_TOPOLOGY_AUDIT_v1.md
+* LOCAL_RUNTIME_COMPATIBILITY_REPORT.md
+* RUNTIME_IMPLEMENTATION_BLUEPRINT_v0.1.md
+* PLANTMON - PRD.md
+* PLANTMON — MVP SCHEMA FREEZE DOCUMENT.md
+* PLANTMON — COLLAPSE GOVERNANCE RULESET v1.md
+
+The topology audit findings are:
+authoritative.
+
+---
+
+# REQUIRED MIGRATION OPERATIONS
+
+The migration MUST include ONLY the following categories:
+
+---
+
+# SECTION A — CARE TASK RUNTIME INTEGRITY
+
+## A1. Prevent duplicate active tasks
+
+Add:
+partial UNIQUE index:
+
+```sql
+(plant_id, task_type)
+WHERE active_status = TRUE
+```
+
+Purpose:
+prevent duplicate active watering/fertilizing tasks.
+
+Important:
+This must NOT break:
+historical inactive tasks.
+
+---
+
+## A2. Composite scheduler lookup index
+
+Add composite index:
+
+```sql
+(plant_id, task_type, active_status)
+```
+
+Purpose:
+optimize:
+
+* watering lookups
+* scheduler recalculation
+* active task retrieval
+
+---
+
+# SECTION B — ALIAS SEARCH HARDENING
+
+## B1. Enable pg_trgm extension safely
+
+Add:
+
+```sql
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+```
+
+ONLY IF SAFE.
+
+---
+
+## B2. GIN trigram index on plant_aliases.alias_name
+
+Add:
+GIN trigram index for:
+case-insensitive alias lookup performance.
+
+Purpose:
+future:
+
+* alias autocomplete
+* onboarding search
+* fuzzy onboarding recognition
+
+Important:
+must be additive-only.
+
+---
+
+# SECTION C — CANONICAL QUERY HARDENING
+
+## C1. Composite canonical lookup index
+
+Add:
+
+```sql
+(user_id, canonical_species_id)
+WHERE canonical_species_id IS NOT NULL
+```
+
+Purpose:
+future:
+
+* per-user canonical plant lookups
+* scheduler operations
+* analytics
+* identity propagation
+
+---
+
+# SECTION D — RLS HARDENING
+
+Audit and correct:
+INSERT/UPDATE policy semantics
+for:
+
+* care_tasks
+* care_logs
+
+Specifically:
+replace incorrect policy semantics
+using:
+`USING`
+where:
+`WITH CHECK`
+is more appropriate.
+
+IMPORTANT:
+Preserve existing authorization behavior exactly.
+
+DO NOT redesign:
+the RLS architecture.
+
+Only harden correctness.
+
+---
+
+# SECTION E — CONSTRAINT VALIDATION
+
+Validate:
+that:
+`plant_care_profiles.species_name`
+still has:
+UNIQUE enforcement.
+
+If already present:
+DO NOTHING.
+
+If missing:
+add safely.
+
+---
+
+# SECTION F — SAFE VALIDATION QUERIES
+
+At the end of the migration:
+include:
+NON-DESTRUCTIVE validation queries.
+
+These should verify:
+
+* indexes exist
+* extension exists
+* RLS policies exist
+* UNIQUE enforcement exists
+
+These should be:
+safe read-only inspection queries.
+
+---
+
+# IMPORTANT MIGRATION REQUIREMENTS
+
+## ALL operations must be:
+
+* idempotent
+* additive
+* rollback-safe
+* Supabase-compatible
+* Postgres-compatible
+
+Use:
+
+* IF NOT EXISTS
+* defensive guards
+* safe policy replacement patterns
+
+throughout.
+
+---
+
+# VERY IMPORTANT
+
+This migration MUST assume:
+the live Supabase DB already contains:
+
+* existing user plants
+* existing care_tasks
+* existing care_logs
+* existing plant_care_profiles rows
+
+DO NOT:
+invalidate existing runtime data.
+
+---
+
+# REQUIRED REPORT CONTENT
+
+The accompanying:
+PRE_DATASET_HARDENING_MIGRATION_REPORT_v1.md
+must include:
+
+| Section                           | Purpose                         |
+| --------------------------------- | ------------------------------- |
+| Executive summary                 | migration purpose               |
+| Runtime risks addressed           | topology audit linkage          |
+| Full operation breakdown          | all SQL explained               |
+| Safety analysis                   | why additive-safe               |
+| Runtime impact                    | expected operational changes    |
+| Rollback analysis                 | operational reversibility       |
+| Dataset synchronization readiness | next-phase implications         |
+| Phase 2.2 readiness               | runtime activation implications |
+
+---
+
+# MOST IMPORTANT PRINCIPLE
+
+This migration exists to:
+reduce operational runtime risk
+BEFORE:
+identity activation and dataset synchronization.
+
+Optimize for:
+
+* runtime integrity
+* scheduler safety
+* onboarding scalability
+* query performance
+* migration discipline
+* operational continuity
+
+at all times.

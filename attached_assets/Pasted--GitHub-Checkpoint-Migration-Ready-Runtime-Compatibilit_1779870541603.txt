@@ -1,0 +1,104 @@
+# GitHub Checkpoint — Migration-Ready Runtime Compatibility Freeze
+
+We have completed:
+PHASE B1.5A — Local Runtime Compatibility Synchronization
+
+Before executing the live Supabase migration, create a final migration-ready rollback checkpoint.
+
+IMPORTANT:
+This commit represents:
+the LAST known-good state before touching live Supabase infrastructure.
+
+Treat this as a production migration checkpoint.
+
+---
+
+# REQUIRED TASKS
+
+## 1. Audit current working tree
+
+Inspect all changed files since:
+commit:
+5f2f1646
+
+Ensure:
+
+* no temporary/debug files
+* no experimental artifacts
+* no secrets/env vars
+* no accidental generated junk
+* runtime compatibility changes are included
+* migration docs are included
+
+---
+
+## 2. Stage all intentional migration-readiness files
+
+Especially include:
+
+* hooks/usePlants.ts
+* lib/careProfiles.ts
+* components/PlantForm.tsx
+* lib/runtimeValidation.ts
+* LOCAL_RUNTIME_COMPATIBILITY_REPORT.md
+
+Preserve clean migration readiness state.
+
+---
+
+## 3. Create Git commit
+
+Commit title:
+
+Migration-Ready Runtime Compatibility Freeze
+
+Commit description:
+
+* Added runtime-schema compatibility shims for Phase 2.1
+* Prepared hooks/usePlants.ts for post-migration canonical fields
+* Refactored careProfiles.ts for future identity routing activation
+* Added scheduler compatibility abstraction layer
+* Added runtime validation utilities
+* Preserved full v0.1 runtime behavior
+* Validated backward compatibility pre-migration
+* Prepared runtime for additive Supabase infrastructure activation
+
+---
+
+## 4. Push to existing GitHub repository
+
+Push normally to:
+main
+
+DO NOT:
+
+* force push
+* rewrite history
+* squash previous commits
+* create new branches
+
+---
+
+## 5. Generate push report
+
+Return:
+
+### Git Information
+
+* branch
+* commit hash
+* latest commit title
+
+### Migration Readiness Summary
+
+Confirm:
+
+* runtime compatibility synchronization committed
+* rollback anchor established
+* migration-ready runtime state frozen
+* no destructive changes pending
+
+### Readiness Assessment
+
+Evaluate readiness for:
+PHASE B1.5B — Live Supabase Infrastructure Activation

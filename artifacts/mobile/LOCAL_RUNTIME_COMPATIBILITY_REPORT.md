@@ -1,10 +1,25 @@
 # LOCAL RUNTIME COMPATIBILITY REPORT
 ## Phase B1.5A — Runtime-Schema Compatibility Synchronization
 
+```
+╔══════════════════════════════════════════════════════════════════╗
+║         MIGRATION-READY RUNTIME COMPATIBILITY FREEZE            ║
+║                                                                  ║
+║  Phase B1.5A — COMPLETE                                          ║
+║  Migration clearance: GRANTED                                    ║
+║  Rollback anchor: 5f2f1646a995c4d556719224ea2da234c3fdb55e       ║
+║  Next action: Apply supabase-migration-v2.sql to live Supabase   ║
+║                                                                  ║
+║  This document is the authoritative compatibility record for     ║
+║  Phase B1.5A. Do not modify before migration is confirmed live.  ║
+╚══════════════════════════════════════════════════════════════════╝
+```
+
 **Phase:** B1.5A (Revised) — Local Runtime Compatibility Synchronization  
 **Scope:** Runtime made Phase 2.1 schema-compatible WITHOUT activating Phase 2.2 features  
 **Runtime behavior change:** NONE — all v0.1 behavior preserved  
-**Date:** May 2026
+**Freeze date:** May 2026  
+**Freeze status:** LOCKED — migration-ready rollback anchor
 
 ---
 

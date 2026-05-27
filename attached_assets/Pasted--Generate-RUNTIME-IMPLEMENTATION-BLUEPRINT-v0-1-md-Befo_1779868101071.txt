@@ -1,0 +1,216 @@
+# Generate RUNTIME_IMPLEMENTATION_BLUEPRINT_v0.1.md
+
+Before we continue Phase B dataset synchronization, I need a COMPLETE implementation blueprint of the current PLANTMON app state.
+
+This is NOT a normal documentation task.
+
+This document will become:
+the authoritative runtime implementation reference
+used for:
+
+* schema synchronization
+* runtime activation
+* Supabase migration
+* scheduler migration
+* onboarding integration
+* identity layer freeze
+
+You must deeply inspect the ACTUAL current implementation state of the Replit project.
+
+DO NOT rely on assumptions.
+DO NOT summarize abstractly.
+DO NOT restate the PRD.
+
+This document must reflect:
+the REAL implemented runtime architecture.
+
+---
+
+# REQUIRED DOCUMENT STRUCTURE
+
+## 1. Current Database Architecture
+
+Document ALL currently implemented tables including:
+
+* columns
+* types
+* nullability
+* relationships
+* FK constraints
+* indexes
+* compatibility layers
+* deprecated fields
+* runtime-critical fields
+
+Include:
+
+* canonical_species
+* plant_aliases
+* collapse_mappings
+* plants
+* plant_care_profiles
+* care_tasks
+* care_logs
+* health_logs
+* journal_entries
+* all remaining tables
+
+---
+
+## 2. Active Runtime Identity Architecture
+
+Document the ACTUAL currently implemented runtime flow.
+
+Including:
+
+* onboarding resolution flow
+* alias lookup behavior
+* species_name usage
+* canonical_species_id usage
+* collapse normalization behavior
+* fallback behaviors
+* unresolved TODOs
+* compatibility logic
+
+IMPORTANT:
+distinguish between:
+
+* implemented
+* partially implemented
+* planned but not implemented
+
+---
+
+## 3. Current Scheduler Architecture
+
+Document:
+
+* task generation logic
+* care task inheritance
+* watering sync behavior
+* runtime scheduling assumptions
+* seasonal logic support
+* repotting logic status
+* canonical identity usage inside scheduler
+* current limitations
+
+---
+
+## 4. Active Runtime Types & Enums
+
+Document ALL currently active:
+
+* enums
+* union types
+* compatibility layers
+* deprecated runtime values
+* canonical runtime contracts
+
+Include:
+
+* TaskType
+* LightRequirement
+* DifficultyLevel
+* SpeciesResolutionMethod
+* WateringMethod
+* FertilizingMethod
+* RepottingMethod
+* CareTaskStatus
+* IdentityStatus
+* ALL compatibility unions
+
+---
+
+## 5. Current Seed/Data State
+
+Document:
+
+* what datasets are seeded
+* row counts
+* what is still local-only
+* what is synced to Supabase
+* what is missing
+* what is partially synced
+* canonical coverage status
+* alias coverage status
+* collapse mapping status
+
+---
+
+## 6. Current Frontend Runtime Behavior
+
+Document:
+
+* onboarding UX flow
+* plant creation flow
+* search behavior
+* identity persistence behavior
+* display_name usage
+* species_name usage
+* canonical_species_id usage
+* scheduler interactions
+* fallback compatibility logic
+
+---
+
+## 7. Current Supabase State
+
+Document:
+
+* migrations applied
+* pending migrations
+* schema drift risks
+* local vs Supabase mismatches
+* FK integrity risks
+* runtime compatibility risks
+
+---
+
+## 8. Runtime Technical Debt & Risks
+
+Identify:
+
+* incomplete runtime flows
+* schema inconsistencies
+* outdated assumptions
+* runtime safety risks
+* migration risks
+* scheduler risks
+* onboarding risks
+* identity routing risks
+
+---
+
+## 9. Synchronization Readiness Assessment
+
+Evaluate readiness for:
+
+* canonical_inventory synchronization
+* aliases synchronization
+* collapse_mappings synchronization
+* plant_care_profiles synchronization
+* Pass 2.2 runtime activation
+* scheduler migration
+* Supabase production migration
+
+For each:
+classify:
+
+* READY
+* PARTIAL
+* BLOCKED
+
+with reasoning.
+
+---
+
+# OUTPUT REQUIREMENTS
+
+Generate:
+`RUNTIME_IMPLEMENTATION_BLUEPRINT_v0.1.md`
+
+This document should become:
+the authoritative implementation source of truth
+for the remainder of Phase B and Pass 2.2.
+
+Be exhaustive, implementation-specific, and deterministic.

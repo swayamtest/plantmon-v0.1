@@ -1,0 +1,123 @@
+# Pre-Phase-B1.5A GitHub Checkpoint Push
+
+We are about to begin PHASE B1.5A — Runtime Infrastructure Activation for PLANTMON.
+
+Before touching live Supabase migrations, I want a FULL rollback-safe GitHub checkpoint of the current app state.
+
+IMPORTANT:
+This is now production-grade migration work.
+Treat this commit as a migration rollback anchor.
+
+---
+
+# REQUIRED TASKS
+
+## 1. Audit current working tree
+
+Before committing:
+
+* inspect all changed files
+* ensure no temporary/debug files are included
+* ensure generated artifacts are intentional
+* ensure no secrets/env vars are committed
+* ensure SQL migration files are present
+* ensure all Phase 2.1 local schema work is included
+
+Pay special attention to:
+
+* supabase-migration-v2.sql
+* supabase-setup.sql
+* types/canonical.ts
+* types/plant.ts
+* schema/governance docs
+* runtime implementation blueprint docs
+* identity governance artifacts
+
+---
+
+## 2. Stage all intentional project files
+
+Include:
+
+* schema work
+* runtime type work
+* governance documentation
+* migration files
+* identity architecture files
+* dataset governance artifacts
+* runtime blueprint documentation
+
+Exclude:
+
+* temporary caches
+* generated OS files
+* local-only junk artifacts
+* secrets
+
+---
+
+## 3. Create Git commit
+
+Commit title:
+
+Pre-Phase-B1.5A Runtime Infrastructure Activation Checkpoint
+
+Commit description:
+
+* Frozen Phase 2.1 local schema architecture
+* Added canonical runtime identity infrastructure
+* Added layered identity governance architecture
+* Added canonical_species / plant_aliases / collapse_mappings schema
+* Expanded plant_care_profiles runtime intelligence fields
+* Added canonical identity runtime enums and contracts
+* Completed deterministic identity reconciliation audits
+* Finalized append-only canonical_species_id governance
+* Added runtime implementation blueprint documentation
+* Prepared additive Supabase migration for Phase B1.5A
+
+---
+
+## 4. Push to existing GitHub repository
+
+Push to the currently connected repository.
+
+DO NOT:
+
+* create a new repository
+* rewrite history
+* squash unrelated commits
+* force push
+
+Normal safe push only.
+
+---
+
+## 5. Generate push report
+
+After push completes return:
+
+### Git Information
+
+* branch name
+* commit hash
+* latest commit title
+
+### File Summary
+
+* total files changed
+* major files added/updated
+* migration files included
+
+### Migration Readiness Confirmation
+
+Confirm:
+
+* supabase-migration-v2.sql exists
+* no destructive migration scripts staged
+* runtime blueprint docs committed
+* rollback checkpoint established successfully
+
+### Readiness Assessment
+
+Evaluate readiness for:
+PHASE B1.5A — Supabase Runtime Infrastructure Activation

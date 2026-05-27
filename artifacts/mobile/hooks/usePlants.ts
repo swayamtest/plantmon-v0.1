@@ -4,6 +4,8 @@ import { Plant, PlantInput, TaskType } from "@/types/plant";
 import { useAuth } from "@/contexts/AuthContext";
 import { generateDefaultCareTasks } from "@/lib/careProfiles";
 
+// Full join selector — unchanged; `*` returns all columns (new nullable ones arrive as null
+// after supabase-migration-v2.sql runs, with no query changes required).
 const PLANT_SELECT = "*, care_tasks(*)";
 
 export function usePlants() {
@@ -44,22 +46,49 @@ export function useCreatePlant() {
   const { user } = useAuth();
   return useMutation({
     mutationFn: async (input: PlantInput) => {
-      // 1. Insert the plant record
+      // ── Phase 2.1 compatibility shim ──────────────────────────────────────────
+      // Strip Phase 2.1 canonical fields that don't exist in the DB yet.
+      // After running supabase-migration-v2.sql, remove this destructuring and
+      // spread the full `input` object (or add each field explicitly to insertPayload).
+      //
+      // ACTIVATE POST-MIGRATION (uncomment each line when column is confirmed live):
+      //   user_entered_name        → plants.user_entered_name
+      //   canonical_species_id     → plants.canonical_species_id
+      //   canonical_species_name   → plants.canonical_species_name
+      //   species_resolution_method → plants.species_resolution_method
+      // ─────────────────────────────────────────────────────────────────────────
+      const {
+        user_entered_name: _user_entered_name,
+        canonical_species_id: _canonical_species_id,
+        canonical_species_name: _canonical_species_name,
+        species_resolution_method: _species_resolution_method,
+        ...v01Fields
+      } = input;
+
+      // 1. Insert the plant record (v0.1-compatible fields only)
       const { data: created, error: insertError } = await supabase
         .from("plants")
-        .insert({ ...input, user_id: user!.id })
-        .select("id, species_name")
+        .insert({ ...v01Fields, user_id: user!.id })
+        // select("*") is forward-compatible: pre-migration returns v0.1 columns,
+        // post-migration returns all columns (new ones as null). No query change needed.
+        .select("*")
         .single();
       if (insertError) throw insertError;
 
+      const plantCore = created as {
+        id: string;
+        species_name: string | null;
+        canonical_species_id: string | null;
+      };
+
       // 2. Auto-generate default care tasks based on species (or fallback defaults)
-      await generateDefaultCareTasks(created.id, created.species_name);
+      await generateDefaultCareTasks(plantCore.id, plantCore.species_name);
 
       // 3. Re-fetch the full plant record with care_tasks joined
       const { data: plant, error: fetchError } = await supabase
         .from("plants")
         .select(PLANT_SELECT)
-        .eq("id", created.id)
+        .eq("id", plantCore.id)
         .single();
       if (fetchError) throw fetchError;
       return plant as Plant;
@@ -74,9 +103,21 @@ export function useUpdatePlant() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ id, ...input }: PlantInput & { id: string }) => {
+      // ── Phase 2.1 compatibility shim ──────────────────────────────────────────
+      // Strip Phase 2.1 canonical fields that don't exist in the DB yet.
+      // Same pattern as useCreatePlant — activate post-migration.
+      // ─────────────────────────────────────────────────────────────────────────
+      const {
+        user_entered_name: _user_entered_name,
+        canonical_species_id: _canonical_species_id,
+        canonical_species_name: _canonical_species_name,
+        species_resolution_method: _species_resolution_method,
+        ...v01Fields
+      } = input;
+
       const { data, error } = await supabase
         .from("plants")
-        .update({ ...input, updated_at: new Date().toISOString() })
+        .update({ ...v01Fields, updated_at: new Date().toISOString() })
         .eq("id", id)
         .select(PLANT_SELECT)
         .single();
@@ -112,6 +153,9 @@ export function useWaterPlant() {
       const now = new Date().toISOString();
 
       // 1. Append to care_logs (immutable history)
+      // Phase 2.1 note: canonical_species_id is not populated here yet.
+      // After migration + Phase 2.2 identity activation, look up the plant's
+      // canonical_species_id and include it in this insert for full history linkage.
       const { error: logError } = await supabase.from("care_logs").insert({
         plant_id: plantId,
         task_type: "watering" as TaskType,

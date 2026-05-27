@@ -1,0 +1,182 @@
+# PHASE B1.5A (REVISED) — Local Runtime Compatibility Synchronization
+
+Before we migrate live Supabase, we must first synchronize the LOCAL runtime implementation with the frozen Phase 2.1 architecture.
+
+IMPORTANT:
+This is NOT full Phase 2.2 runtime activation.
+
+DO NOT implement:
+
+* alias resolution
+* collapse resolution
+* canonical onboarding
+* scheduler intelligence
+* seasonal scheduling
+* runtime identity routing
+
+This phase ONLY prepares the runtime to safely coexist with the new schema architecture.
+
+The goal is:
+runtime-schema compatibility alignment.
+
+---
+
+# REQUIRED TASKS
+
+## 1. Runtime Query Compatibility Audit
+
+Audit all runtime queries and mutations for compatibility with the Phase 2.1 schema.
+
+Especially inspect:
+
+* hooks/usePlants.ts
+* lib/careProfiles.ts
+* PlantForm.tsx
+* all Supabase queries/selects/inserts/updates
+
+Identify:
+
+* hardcoded v0.1 assumptions
+* narrow selects
+* missing canonical field support
+* future PostgREST compatibility risks
+
+---
+
+## 2. Expand Runtime Select Compatibility
+
+Update runtime selects to safely coexist with Phase 2.1 schema additions.
+
+Examples:
+
+* replace narrow selects like:
+  .select("id, species_name")
+  with reusable runtime-safe selectors
+
+Ensure:
+
+* backward compatibility preserved
+* runtime continues functioning pre-migration
+* runtime continues functioning post-migration
+
+IMPORTANT:
+Do NOT yet REQUIRE canonical_species_id values.
+Only make the runtime schema-compatible.
+
+---
+
+## 3. Prepare PlantForm for Future Identity Activation
+
+Without activating canonical resolution yet:
+
+Prepare:
+
+* user_entered_name compatibility
+* future canonical resolution support
+* runtime-safe field handling
+
+But:
+DO NOT:
+
+* implement alias search
+* implement autocomplete
+* implement canonical resolution
+
+This phase is compatibility preparation only.
+
+---
+
+## 4. Prepare careProfiles.ts for Future Routing Layer
+
+Refactor:
+lookupCareProfile()
+
+so future Phase 2.2 alias/canonical routing can plug in cleanly.
+
+DO NOT activate aliases yet.
+
+Goal:
+remove hardcoded architectural assumptions WITHOUT changing runtime behavior.
+
+Current behavior must remain:
+species_name → ilike → watering_frequency_days
+
+---
+
+## 5. Scheduler Compatibility Preparation
+
+Prepare scheduler utilities for:
+
+* future seasonal frequencies
+* future canonical identity awareness
+* future runtime profile re-reads
+
+BUT:
+preserve current static scheduler behavior completely.
+
+No scheduling behavior changes yet.
+
+---
+
+## 6. Add Runtime Validation Utilities
+
+Add compatibility validators for:
+
+* missing canonical_species_id
+* unresolved species_name
+* schema compatibility
+* FK readiness
+* runtime routing readiness
+
+These utilities should NOT alter behavior yet.
+
+---
+
+## 7. Validate Full Backward Compatibility
+
+Confirm:
+
+* app boots
+* onboarding works
+* plant creation works
+* watering works
+* scheduler works
+* no query regressions
+* no runtime crashes
+
+IMPORTANT:
+Runtime behavior should remain functionally v0.1.
+
+This phase only synchronizes runtime compatibility.
+
+---
+
+## 8. Generate LOCAL_RUNTIME_COMPATIBILITY_REPORT.md
+
+Document:
+
+* files changed
+* runtime assumptions removed
+* compatibility layers added
+* migration readiness
+* remaining blockers before Supabase migration
+* remaining blockers before Phase 2.2 activation
+
+Classify readiness for:
+
+* Supabase migration
+* canonical dataset seeding
+* alias activation
+* collapse activation
+* scheduler migration
+
+---
+
+# IMPORTANT IMPLEMENTATION RULE
+
+The runtime should become:
+Phase 2.1 compatible,
+WITHOUT becoming:
+Phase 2.2 active.
+
+This distinction is critical.

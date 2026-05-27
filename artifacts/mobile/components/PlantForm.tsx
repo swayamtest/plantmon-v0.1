@@ -55,6 +55,11 @@ export function PlantForm({
     await onSubmit({
       display_name: displayName.trim(),
       species_name: speciesName.trim() || undefined,
+      // Phase 2.1: capture raw species input for future canonical resolution.
+      // user_entered_name preserves what the user typed before any alias/canonical
+      // normalization occurs. It is NOT written to the DB until supabase-migration-v2.sql
+      // is applied — useCreatePlant strips it from the insert payload until then.
+      user_entered_name: speciesName.trim() || undefined,
       room_location: roomLocation.trim() || undefined,
       notes: notes.trim() || undefined,
     });

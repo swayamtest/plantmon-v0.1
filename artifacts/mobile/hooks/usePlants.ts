@@ -152,12 +152,21 @@ export function useWaterPlant() {
     mutationFn: async (plantId: string) => {
       const now = new Date().toISOString();
 
+      // Fetch canonical_species_id for this plant.
+      // Returns null pre-Phase 2.2 (no canonical identity assigned yet via shim);
+      // returns the real value automatically once Phase 2.2 identity activation writes it.
+      // No canonical routing is activated here — this is a passive read only.
+      const { data: plantRow } = await supabase
+        .from("plants")
+        .select("canonical_species_id")
+        .eq("id", plantId)
+        .maybeSingle();
+      const canonicalSpeciesId = plantRow?.canonical_species_id ?? null;
+
       // 1. Append to care_logs (immutable history)
-      // Phase 2.1 note: canonical_species_id is not populated here yet.
-      // After migration + Phase 2.2 identity activation, look up the plant's
-      // canonical_species_id and include it in this insert for full history linkage.
       const { error: logError } = await supabase.from("care_logs").insert({
         plant_id: plantId,
+        canonical_species_id: canonicalSpeciesId,
         task_type: "watering" as TaskType,
         completed_at: now,
       });

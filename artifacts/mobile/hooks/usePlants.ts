@@ -46,6 +46,14 @@ export function useCreatePlant() {
   const { user } = useAuth();
   return useMutation({
     mutationFn: async (input: PlantInput) => {
+      // Auth guard — fail gracefully instead of crashing on user!.id
+      if (!user) {
+        throw new Error(
+          "[useCreatePlant] Cannot create plant: auth session is missing. " +
+          "Please sign in and try again.",
+        );
+      }
+
       // ── Phase 2.1 compatibility shim ──────────────────────────────────────────
       // Strip Phase 2.1 canonical fields that don't exist in the DB yet.
       // After running supabase-migration-v2.sql, remove this destructuring and
@@ -68,7 +76,7 @@ export function useCreatePlant() {
       // 1. Insert the plant record (v0.1-compatible fields only)
       const { data: created, error: insertError } = await supabase
         .from("plants")
-        .insert({ ...v01Fields, user_id: user!.id })
+        .insert({ ...v01Fields, user_id: user.id })
         // select("*") is forward-compatible: pre-migration returns v0.1 columns,
         // post-migration returns all columns (new ones as null). No query change needed.
         .select("*")

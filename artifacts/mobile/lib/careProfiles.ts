@@ -202,11 +202,21 @@ export async function generateDefaultCareTasks(
 
   if (existing) return;
 
-  const { profile } = await resolveSpeciesProfile({
+  const { profile, context } = await resolveSpeciesProfile({
     species_name: speciesName,
     // Phase 2.2: uncomment when canonical_species_id is passed in:
     // canonical_species_id: _canonicalSpeciesId,
   });
+
+  // Visibility: warn when no care profile matched so silent fallbacks surface
+  // during development and internal testing. Does NOT affect onboarding flow.
+  if (context.method === "default_fallback") {
+    console.warn(
+      `[generateDefaultCareTasks] No care profile resolved for species ` +
+      `"${speciesName ?? "(none)"}". ` +
+      `Using ${DEFAULT_WATERING_DAYS}-day fallback watering schedule.`,
+    );
+  }
 
   const waterFreq = getEffectiveWateringFrequency(profile);
   const fertFreq  = getEffectiveFertilizingFrequency(profile);

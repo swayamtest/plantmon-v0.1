@@ -40,8 +40,8 @@
 **Status:** COMPLETE  
 **Alias:** Phase 2.1 (internal)  
 **Authoritative docs:**
-- `artifacts/mobile/SCHEMA_INVENTORY_v0.1.md` — live DB baseline audit (6 tables)
-- `artifacts/mobile/RUNTIME_IMPLEMENTATION_BLUEPRINT_v0.1.md` — schema divergence map
+- `docs/governance/foundational/SCHEMA_INVENTORY_v0.1.md` — live DB baseline audit (6 tables)
+- `docs/governance/foundational/RUNTIME_IMPLEMENTATION_BLUEPRINT_v0.1.md` — schema divergence map
 
 **Summary:**  
 Audited the initial v0.1 live Supabase schema and designed the Phase 2.1 target schema to support canonical species intelligence. Documented the four-layer divergence that existed at this point:
@@ -79,7 +79,7 @@ Finalized the canonical schema design — `canonical_species`, `plant_aliases`, 
 ### G2.1.5 — Runtime–Schema Compatibility Synchronization
 **Status:** COMPLETE  
 **Alias:** Phase B1.5A  
-**Authoritative doc:** `artifacts/mobile/LOCAL_RUNTIME_COMPATIBILITY_REPORT.md`
+**Authoritative doc:** `docs/governance/runtime-alignment/LOCAL_RUNTIME_COMPATIBILITY_REPORT.md`
 
 **Summary:**  
 Synchronized the runtime code to be safe against both v0.1 (live DB, no new columns) and Phase 2.1 (post-migration DB, all columns present). Applied compatibility shims so that mutations do not attempt to write Phase 2.1 columns to the live v0.1 schema.
@@ -101,8 +101,8 @@ const { user_entered_name, canonical_species_id, canonical_species_name,
 **Status:** COMPLETE  
 **Alias:** Phase B1.75  
 **Authoritative docs:**
-- `artifacts/mobile/RUNTIME_TOPOLOGY_AUDIT_v1.md` — full file inventory + coupling analysis
-- `runtime-alignment/RUNTIME_SCHEMA_ALIGNMENT_AUDIT.md` — TypeScript/DB alignment matrix
+- `docs/governance/governance-audit/RUNTIME_TOPOLOGY_AUDIT_v1.md` — full file inventory + coupling analysis
+- `docs/governance/runtime-alignment/RUNTIME_SCHEMA_ALIGNMENT_AUDIT.md` — TypeScript/DB alignment matrix
 
 **Summary:**  
 Full audit of the runtime codebase: all files catalogued, all cross-file couplings mapped, all schema-touching code located, and TypeScript type alignment against Supabase DB types verified.
@@ -122,7 +122,7 @@ Full audit of the runtime codebase: all files catalogued, all cross-file couplin
 ### G2.3 — Pre-Dataset Hardening Migration Governance
 **Status:** COMPLETE (governance documents ready) — migration SQL PENDING EXECUTION  
 **Alias:** Phase B2.0  
-**Authoritative doc:** `artifacts/mobile/PRE_DATASET_HARDENING_MIGRATION_REPORT_v1.md`
+**Authoritative doc:** `docs/governance/governance-migration/PRE_DATASET_HARDENING_MIGRATION_REPORT_v1.md`
 
 **Summary:**  
 Authored the complete 5-category database hardening migration required before any canonical species dataset can be safely loaded. The migration SQL is written and reviewed; it has NOT yet been executed against the live Supabase database.
@@ -147,7 +147,7 @@ Authored the complete 5-category database hardening migration required before an
 
 ### G2.4 — Runtime Type and Mutation Alignment
 **Status:** COMPLETE  
-**Authoritative doc:** `runtime-alignment/RUNTIME_SCHEMA_ALIGNMENT_AUDIT.md`
+**Authoritative doc:** `docs/governance/runtime-alignment/RUNTIME_SCHEMA_ALIGNMENT_AUDIT.md`
 
 **Summary:**  
 Resolved all TypeScript type and runtime mutation misalignments discovered in the G2.2 topology audit.
@@ -166,7 +166,7 @@ Resolved all TypeScript type and runtime mutation misalignments discovered in th
 
 ### G2.5 — Runtime Validation Pass
 **Status:** COMPLETE  
-**Authoritative doc:** `runtime-alignment/G25_RUNTIME_VALIDATION.md`
+**Authoritative doc:** `docs/governance/runtime-alignment/G25_RUNTIME_VALIDATION.md`
 
 **Summary:**  
 End-to-end runtime validation sweep across all schema-touching code. Verified that:
@@ -341,13 +341,13 @@ All 9 canonical intelligence features are currently **OFF**. Each is implemented
 
 | Document | Location | Phase | Role |
 |---|---|---|---|
-| Schema Inventory v0.1 | `artifacts/mobile/SCHEMA_INVENTORY_v0.1.md` | G2.0 | Live DB baseline; 6-table inventory |
-| Runtime Implementation Blueprint | `artifacts/mobile/RUNTIME_IMPLEMENTATION_BLUEPRINT_v0.1.md` | G2.1 | Schema divergence map; canonical design |
-| Local Runtime Compatibility Report | `artifacts/mobile/LOCAL_RUNTIME_COMPATIBILITY_REPORT.md` | G2.1.5 | Shim spec; migration clearance; 9-feature OFF registry |
-| Runtime Topology Audit | `artifacts/mobile/RUNTIME_TOPOLOGY_AUDIT_v1.md` | G2.2 | Full file inventory; coupling risk map |
-| Runtime Schema Alignment Audit | `runtime-alignment/RUNTIME_SCHEMA_ALIGNMENT_AUDIT.md` | G2.2 | TypeScript/DB alignment matrix |
-| Pre-Dataset Hardening Migration Report | `artifacts/mobile/PRE_DATASET_HARDENING_MIGRATION_REPORT_v1.md` | G2.3 | 5-category hardening spec; execution order |
-| G2.5 Runtime Validation | `runtime-alignment/G25_RUNTIME_VALIDATION.md` | G2.5 | End-to-end validation; SAFE verdict |
+| Schema Inventory v0.1 | `docs/governance/foundational/SCHEMA_INVENTORY_v0.1.md` | G2.0 | Live DB baseline; 6-table inventory |
+| Runtime Implementation Blueprint | `docs/governance/foundational/RUNTIME_IMPLEMENTATION_BLUEPRINT_v0.1.md` | G2.1 | Schema divergence map; canonical design |
+| Local Runtime Compatibility Report | `docs/governance/runtime-alignment/LOCAL_RUNTIME_COMPATIBILITY_REPORT.md` | G2.1.5 | Shim spec; migration clearance; 9-feature OFF registry |
+| Runtime Topology Audit | `docs/governance/governance-audit/RUNTIME_TOPOLOGY_AUDIT_v1.md` | G2.2 | Full file inventory; coupling risk map |
+| Runtime Schema Alignment Audit | `docs/governance/runtime-alignment/RUNTIME_SCHEMA_ALIGNMENT_AUDIT.md` | G2.2 | TypeScript/DB alignment matrix |
+| Pre-Dataset Hardening Migration Report | `docs/governance/governance-migration/PRE_DATASET_HARDENING_MIGRATION_REPORT_v1.md` | G2.3 | 5-category hardening spec; execution order |
+| G2.5 Runtime Validation | `docs/governance/runtime-alignment/G25_RUNTIME_VALIDATION.md` | G2.5 | End-to-end validation; SAFE verdict |
 | **This document** | `docs/governance/PLANTMON_EXECUTION_MASTER_TRACKER.md` | G2.6 | Master tracker; READ-ONLY |
 
 ### Source-of-truth files (code)

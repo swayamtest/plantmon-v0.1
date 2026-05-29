@@ -1,0 +1,106 @@
+Execute the governance documentation reorganization plan documented in:
+
+docs/governance/GOVERNANCE_DOCUMENT_INVENTORY.md
+
+CRITICAL RULES
+
+* DO NOT modify runtime code
+* DO NOT modify TypeScript implementation
+* DO NOT modify Supabase schema
+* DO NOT modify migrations
+* DO NOT modify onboarding behavior
+* DO NOT modify scheduler behavior
+* DO NOT delete documentation
+* DO NOT rewrite document contents unless path references must be updated
+* Preserve all historical governance artifacts
+
+This is a DOCUMENTATION REORGANIZATION task only.
+
+OBJECTIVE
+
+Consolidate governance documentation into a single authoritative documentation structure under:
+
+docs/governance/
+
+TARGET STRUCTURE
+
+docs/
+└── governance/
+├── PLANTMON_EXECUTION_MASTER_TRACKER.md
+├── GOVERNANCE_DOCUMENT_INVENTORY.md
+├── README.md
+├── foundational/
+├── governance-audit/
+├── governance-baseline/
+├── governance-reconciliation/
+├── governance-migration/
+├── runtime-alignment/
+└── archive/
+
+EXECUTION REQUIREMENTS
+
+1. Move governance documents according to the recommendations in:
+   GOVERNANCE_DOCUMENT_INVENTORY.md
+
+2. Preserve filenames.
+
+3. Preserve document contents.
+
+4. Preserve document history.
+
+5. Move governance markdown files currently mixed into:
+   artifacts/mobile/
+
+   into the appropriate governance folders.
+
+6. Leave SQL files in their current implementation locations unless the inventory explicitly recommends otherwise.
+
+7. Remove any empty governance directories that become obsolete after the move.
+
+8. Update relative markdown links if paths change.
+
+9. Create:
+
+docs/governance/README.md
+
+README MUST DOCUMENT
+
+* governance folder purpose
+* folder structure
+* document categories
+* authoritative role of:
+  PLANTMON_EXECUTION_MASTER_TRACKER.md
+* update process after phase completion
+* archival policy
+* future governance document placement rules
+
+10. Verify:
+
+PLANTMON_EXECUTION_MASTER_TRACKER.md
+remains the authoritative high-level execution document.
+
+OUTPUT REQUIRED
+
+After completion provide:
+
+# Files Moved
+
+List all files moved.
+
+# Directories Created
+
+List all new directories.
+
+# Directories Removed
+
+List any obsolete empty directories removed.
+
+# Links Updated
+
+List any markdown references updated.
+
+# Final Governance Structure
+
+Provide the final governance folder tree.
+
+Do not perform any runtime, database, schema, migration, or implementation changes.

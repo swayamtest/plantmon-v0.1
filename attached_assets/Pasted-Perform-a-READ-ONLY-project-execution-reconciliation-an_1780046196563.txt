@@ -1,0 +1,254 @@
+Perform a READ-ONLY project execution reconciliation and create a long-term execution tracking document for PLANTMON.
+
+CRITICAL RULES:
+
+* DO NOT modify runtime code
+* DO NOT modify Supabase schema
+* DO NOT apply migrations
+* DO NOT alter onboarding behavior
+* DO NOT activate canonical routing
+* DO NOT activate scheduler rebinding
+* DO NOT modify implementation
+
+This task is DOCUMENTATION ONLY.
+
+Create:
+
+docs/governance/PLANTMON_EXECUTION_MASTER_TRACKER.md
+
+PURPOSE
+
+This document will become the authoritative high-level execution tracker for PLANTMON.
+
+It should be maintained throughout the life of the project and updated after major phase completion.
+
+The goal is to provide a single location that answers:
+
+* Where are we now?
+* What phases have been completed?
+* What discoveries changed the roadmap?
+* What phases were deferred?
+* What comes next?
+* What is the current runtime state?
+* What technical debt exists?
+* What is blocking launch?
+* What is intentionally deferred until post-MVP?
+
+Use the current repository, governance artifacts, runtime alignment artifacts, migration governance artifacts, reconciliation artifacts, and project documentation as sources.
+
+STRUCTURE
+
+Create the document with the following sections.
+
+# PLANTMON EXECUTION MASTER TRACKER
+
+## Executive Summary
+
+Document:
+
+* Current project mode
+* Current active phase
+* Last completed phase
+* Current launch objective
+* Overall project status
+
+---
+
+## Current Runtime State
+
+Document current validated state for:
+
+| Layer | Status |
+
+Include:
+
+* canonical infrastructure
+* onboarding substrate
+* normalization substrate
+* care intelligence substrate
+* alias routing
+* collapse routing
+* canonical routing
+* scheduler rebinding
+* archetype routing
+* seasonal scheduling
+* coexistence shims
+
+---
+
+## Completed Execution History
+
+Create a chronological section documenting:
+
+### Governance & Runtime Stabilization
+
+Include:
+
+* G2.0
+* G2.1
+* G2.1.5
+* G2.2
+* G2.3
+* G2.4
+* G2.5
+
+For each:
+
+* objective
+* outcome
+* major discoveries
+* final status
+
+---
+
+## Key Architectural Decisions
+
+Document major validated decisions including:
+
+### Infrastructure Activation ≠ Runtime Activation ≠ Operational Activation
+
+### Canonical Infrastructure Doctrine
+
+### Coexistence Doctrine
+
+### Scheduler Doctrine
+
+### Onboarding Identity Doctrine
+
+### Representative Canonical Anchoring Validation
+
+### Operational Archetype Governance Validation
+
+---
+
+## Current MVP Roadmap
+
+Document:
+
+### M1.0 — Runtime Type Reconciliation
+
+### M1.1 — Intelligent Onboarding
+
+Includes:
+
+* Search UX
+* Progressive Onboarding Resolution UX
+* Adaptive Onboarding
+* Missing Plant UX
+
+### M1.2 — Dashboard + Task UX
+
+### M1.3 — Plant Detail Experience
+
+### M1.4 — Semantic Intelligence Rendering
+
+### M1.5 — Notifications
+
+For each:
+
+* objective
+* status
+* dependencies
+* launch impact
+
+---
+
+## Deferred Until Post-MVP
+
+Document all intentionally deferred work including:
+
+* B2.2 Runtime Resolution Activation
+* B2.2C Runtime Observability & Governance Telemetry
+* B2.3 Operational Archetype Canonicalization
+* B2.3B Care Intelligence Enrichment
+* B2.4 Dataset Evolution Governance
+
+Include reasons for deferral.
+
+---
+
+## Known Technical Debt
+
+Document currently accepted non-blocking debt.
+
+Classify:
+
+* launch blocking
+* MVP acceptable
+* post-launch
+
+Include:
+
+* next_due_at semantic divergence
+* maybeSingle hardening
+* terminology reconciliation
+* migration observability
+* future canonical activation dependencies
+
+---
+
+## Runtime Activation Registry
+
+Explicitly document:
+
+Current OFF state for:
+
+* alias routing
+* collapse routing
+* canonical routing
+* scheduler rebinding
+* archetype routing
+* seasonal scheduling
+
+Document activation dependencies for each.
+
+---
+
+## Launch Readiness
+
+Assess:
+
+* backend readiness
+* runtime readiness
+* onboarding readiness
+* scheduler readiness
+* frontend readiness
+
+---
+
+## Change Log
+
+Create a running chronological log.
+
+Format:
+
+### YYYY-MM-DD
+
+* phase completed
+* significant decision
+* roadmap adjustment
+* architectural discovery
+
+This section must be updated instead of overwritten.
+
+---
+
+MAINTENANCE RULES
+
+Add a final section called:
+
+## Maintenance Rules
+
+Document:
+
+1. This file is the authoritative high-level execution tracker.
+2. Update after every major phase completion.
+3. Never overwrite historical decisions.
+4. Append to change log.
+5. Preserve completed phase history.
+6. Preserve deferred phase history.
+7. Maintain roadmap continuity.
+8. Keep current active phase accurate.
+9. Use this document as the primary project-state reference before execution planning.
+
+Output only the generated markdown file.
